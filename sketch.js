@@ -12,5 +12,11 @@ function draw() {
   // 計算影像的顯示位置，使其置中
   let x = (width - video.width) / 2;
   let y = (height - video.height) / 2;
+
+  // 翻轉畫布以水平翻轉影像
+  push();
+  translate(width, 0); // 將原點移到畫布右上角
+  scale(-1, 1); // 水平翻轉畫布
   image(video, x, y); // 在畫布上繪製攝影機影像
+  pop();
 }
