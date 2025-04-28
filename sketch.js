@@ -30,7 +30,6 @@ function draw() {
   image(video, x, y); // 在畫布上繪製攝影機影像
   pop();
 
-  // 在視訊上方繪製 overlayGraphics
-  image(overlayGraphics, x, y - overlayGraphics.height - 10); // 顯示在視訊上方，間隔 10px
+  // 在視訊上繪製 overlayGraphics（覆蓋在視訊上）
+  image(overlayGraphics, x, y); // 與視訊位置相同
 }
-
