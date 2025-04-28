@@ -40,12 +40,13 @@ function updateOverlayGraphics() {
   overlayGraphics.clear(); // 清除之前的內容
   overlayGraphics.background(0); // 設定背景為黑色
 
-  // 每隔 20 繪製一個圓，圓的顏色來自 video 的相對位置
+  // 每隔 20 繪製一個圓，圓的顏色為灰階值
   for (let y = 0; y < overlayGraphics.height; y += 20) {
     for (let x = 0; x < overlayGraphics.width; x += 20) {
       // 從 video 中取得相對應位置的顏色
       let col = video.get(x, y);
-      overlayGraphics.fill(col); // 設定圓的顏色
+      let gray = (red(col) + green(col) + blue(col)) / 3; // 計算灰階值
+      overlayGraphics.fill(gray); // 設定圓的顏色為灰階值
       overlayGraphics.noStroke();
       overlayGraphics.ellipse(x + 10, y + 10, 15, 15); // 繪製圓，置於單位中心
     }
