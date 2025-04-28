@@ -9,11 +9,7 @@ function setup() {
 
   // 建立與 video 尺寸相同的圖形緩衝區
   overlayGraphics = createGraphics(video.width, video.height);
-  overlayGraphics.background(255, 0, 0, 100); // 設定為半透明紅色背景
-  overlayGraphics.fill(255);
-  overlayGraphics.textSize(32);
-  overlayGraphics.textAlign(CENTER, CENTER);
-  overlayGraphics.text("嗨", overlayGraphics.width / 2, overlayGraphics.height / 2);
+  updateOverlayGraphics(); // 初始化覆蓋層內容
 }
 
 function draw() {
@@ -30,6 +26,28 @@ function draw() {
   image(video, x, y); // 在畫布上繪製攝影機影像
   pop();
 
+  // 確保 overlayGraphics 的大小與 video 一致
+  if (overlayGraphics.width !== video.width || overlayGraphics.height !== video.height) {
+    overlayGraphics = createGraphics(video.width, video.height);
+    updateOverlayGraphics(); // 更新覆蓋層內容
+  }
+
   // 在視訊上繪製 overlayGraphics（覆蓋在視訊上）
   image(overlayGraphics, x, y); // 與視訊位置相同
+}
+
+function updateOverlayGraphics() {
+  overlayGraphics.clear(); // 清除之前的內容
+  overlayGraphics.background(0); // 設定背景為黑色
+
+  // 每隔 20 繪製一個圓，圓的顏色來自 video 的相對位置
+  for (let y = 0; y < overlayGraphics.height; y += 20) {
+    for (let x = 0; x < overlayGraphics.width; x += 20) {
+      // 從 video 中取得相對應位置的顏色
+      let col = video.get(x, y);
+      overlayGraphics.fill(col); // 設定圓的顏色
+      overlayGraphics.noStroke();
+      overlayGraphics.ellipse(x + 10, y + 10, 15, 15); // 繪製圓，置於單位中心
+    }
+  }
 }
