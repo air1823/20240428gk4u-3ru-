@@ -12,7 +12,7 @@ function setup() {
 }
 
 function draw() {
-  background("#ffffb7"); // 設定背景顏色為淺黃色
+  background("#e0e0e0"); // 設定背景顏色為柔和的淺灰色
 
   // 計算影像的顯示位置，使其置中
   let x = (width - video.width) / 2;
