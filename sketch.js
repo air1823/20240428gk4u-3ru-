@@ -9,7 +9,6 @@ function setup() {
 
   // 建立與 video 尺寸相同的圖形緩衝區
   overlayGraphics = createGraphics(video.width, video.height);
-  updateOverlayGraphics(); // 初始化覆蓋層內容
 }
 
 function draw() {
@@ -29,8 +28,10 @@ function draw() {
   // 確保 overlayGraphics 的大小與 video 一致
   if (overlayGraphics.width !== video.width || overlayGraphics.height !== video.height) {
     overlayGraphics = createGraphics(video.width, video.height);
-    updateOverlayGraphics(); // 更新覆蓋層內容
   }
+
+  // 動態更新 overlayGraphics 的內容
+  updateOverlayGraphics();
 
   // 在視訊上繪製 overlayGraphics（覆蓋在視訊上）
   image(overlayGraphics, x, y); // 與視訊位置相同
@@ -40,15 +41,19 @@ function updateOverlayGraphics() {
   overlayGraphics.clear(); // 清除之前的內容
   overlayGraphics.background(0); // 設定背景為黑色
 
-  // 每隔 20 繪製一個圓，圓的顏色為灰階值
+  // 每隔 20 繪製一個單位，單位內包含方框和圓
   for (let y = 0; y < overlayGraphics.height; y += 20) {
     for (let x = 0; x < overlayGraphics.width; x += 20) {
       // 從 video 中取得相對應位置的顏色
       let col = video.get(x, y);
-      let gray = (red(col) + green(col) + blue(col)) / 3; // 計算灰階值
-      overlayGraphics.fill(gray); // 設定圓的顏色為灰階值
+      let g = green(col); // 取得 G 值
+      overlayGraphics.fill(0, g, 100); // 設定方框顏色，R 為 0，B 固定為 100
       overlayGraphics.noStroke();
-      overlayGraphics.ellipse(x + 10, y + 10, 15, 15); // 繪製圓，置於單位中心
+      overlayGraphics.rect(x + 1, y + 1, 18, 18); // 繪製方框，稍微內縮避免重疊
+
+      // 繪製中間的黑色圓
+      overlayGraphics.fill(0); // 設定圓的顏色為黑色
+      overlayGraphics.ellipse(x + 10, y + 10, 5, 5); // 繪製圓，置於方框中心
     }
   }
 }
