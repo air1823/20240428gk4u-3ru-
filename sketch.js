@@ -33,8 +33,12 @@ function draw() {
   // 動態更新 overlayGraphics 的內容
   updateOverlayGraphics();
 
-  // 在視訊上繪製 overlayGraphics（覆蓋在視訊上）
+  // 翻轉畫布以水平翻轉 overlayGraphics
+  push();
+  translate(width, 0); // 將原點移到畫布右上角
+  scale(-1, 1); // 水平翻轉畫布
   image(overlayGraphics, x, y); // 與視訊位置相同
+  pop();
 }
 
 function updateOverlayGraphics() {
